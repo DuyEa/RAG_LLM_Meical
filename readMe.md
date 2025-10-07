@@ -120,13 +120,6 @@ RAG_LLM/
 
 ---
 
-## 🔐 Security Reminder
-> **Never commit tokens** to GitHub.  
-Keep all secrets in environment variables or a `.env` file (excluded via `.gitignore`).  
-If any secret was pushed previously, **revoke it immediately**.
-
----
-
 ## 📚 References
 - Yu He Ke et al., *“Development and Testing of Retrieval Augmented Generation in Large Language Models – A Case Study Report”*, arXiv:2402.01733 (2024).  
 - Hugging Face Transformers & TRL SFT.  
