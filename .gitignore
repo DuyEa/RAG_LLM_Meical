@@ -1,0 +1,11 @@
+processed_medical_qa_fixed_en/
+medical_llama3_finetuned_en/
+__pycache__/
+*.pth
+*.bin
+*.pt
+*.zip
+*.pdf
+*.log
+.DS_Store
+.idea/
