@@ -54,7 +54,7 @@ embedder = SentenceTransformer('all-MiniLM-L6-v2')
 embeddings = embedder.encode(chunks, batch_size=32, show_progress_bar=True)
 
 # Connect to Qdrant (cloud - REPLACE with your URL and API_KEY)
-CLUSTER_URL = "https://2a834546-f9a5-4f6d-836a-11b02865d9d8.europe-west3-0.gcp.cloud.qdrant.io"  # Copy from dashboard
+CLUSTER_URL = "https://2a834546-f9a5-4f6d-836a-11b02865d9d8.europe-west3-0.gcp.cloud.qdrant.io"
 API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.878Wi2gnA9e2TRTOz7efjZddEGBFh2rI7eM76L_29e8"
 client = QdrantClient(url=CLUSTER_URL, api_key=API_KEY)
 
@@ -91,10 +91,10 @@ for i in range(0, total_points, batch_size):
     try:
         client.upsert(collection_name=collection_name, points=batch_points)
         upserted_count += len(batch_points)
-        # ONLY PRINT MILESTONES: batch 1, 10, 20, 30, ...
+
         if batch_num == 1 or batch_num % 10 == 0:
             print(f"Upserted batch {batch_num}: {len(batch_points)} points (total: {upserted_count}/{total_points})")
-    except Exception as e:  # Simple retry logic on error
+    except Exception as e:
         print(f"Error in batch {batch_num}: {e}. Retrying once...")
         try:
             client.upsert(collection_name=collection_name, points=batch_points)
