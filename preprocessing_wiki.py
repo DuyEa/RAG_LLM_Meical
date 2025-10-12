@@ -10,8 +10,8 @@ import uuid  # To create a unique ID for each chunk
 dataset_full = load_dataset("gamino/wiki_medical_terms")['train']
 print(f"Full dataset size: {len(dataset_full)}")
 
-# Take the first 1000 rows as a subset
-dataset = dataset_full.select(range(1000))
+# Take the first 2000 rows as a subset
+dataset = dataset_full.select(range(2000))
 print(f"Subset size: {len(dataset)}")
 
 # Extract texts with metadata (title + text), and de-duplicate by title immediately
