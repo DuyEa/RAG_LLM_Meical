@@ -3,7 +3,7 @@ import numpy as np
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 import gradio as gr
-import re  # For post-processing
+import re
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Filter, FieldCondition, MatchAny, MatchValue, \
     PayloadSchemaType  # For filtering by title + index creation
@@ -15,7 +15,7 @@ API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.878Wi2gnA9e2
 client = QdrantClient(url=CLUSTER_URL, api_key=API_KEY)
 embedder = SentenceTransformer('all-MiniLM-L6-v2')
 
-# FIX: Create/check payload index for "title"
+
 collection_name = "wiki_medical"
 title_index_created = False
 try:
@@ -66,7 +66,7 @@ print("Model loaded! RAG is ready.")
 
 
 # RAG function with improved hybrid retrieval
-def rag_query(query, k=10):  # Increase k for more context
+def rag_query(query, k=10):
     words = query.lower().split()
     stop_words = {'how', 'to', 'what', 'is', 'the', 'a', 'an', 'and', 'or', 'in', 'on', 'for', 'with', '?'}
     title_keywords = [word for word in words if word not in stop_words and len(word) > 2]
@@ -85,7 +85,7 @@ def rag_query(query, k=10):  # Increase k for more context
                 query_filter=exact_filter
             )
         except:
-            pass  # If exact fails, proceed to semantic
+            pass
 
     # Semantic search with keyword filter
     qdrant_filter = None
@@ -119,7 +119,7 @@ def rag_query(query, k=10):  # Increase k for more context
     unique_titles = [t for t in retrieved_titles if not (t in seen or seen.add(t))]
 
     context = "\n\n".join([f"Term: {title}\n{chunk}" for title, chunk in zip(retrieved_titles, retrieved_chunks)])
-    # Enhanced prompt: Avoid meta-commentary and citations
+
     prompt = f"""Based on the following medical knowledge:
 {context}
 Focus on the exact query term and provide a direct, detailed definition or explanation with medical reasoning (step-by-step if possible). Do not add any meta-commentary, evaluation, summary about the response itself, or citations like [1], [2].

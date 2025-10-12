@@ -18,7 +18,7 @@ print(f"Subset size: {len(dataset)}")
 texts_with_meta = []
 seen_titles = set()
 for item in dataset:
-    title = item.get('page_title', '')
+    title = item.get('page_title', '').lower()
     text = item.get('page_text', '').strip()
     if title and text and title not in seen_titles:
         full_entry = f"Term: {title}\n{text}"
@@ -69,7 +69,7 @@ if not client.collection_exists(collection_name):
 else:
     print(f"Collection '{collection_name}' already exists")
 
-# FIX: Upsert in batches to avoid timeouts (1000 points per batch)
+#Upsert in batches to avoid timeouts (1000 points per batch)
 batch_size = 1000
 total_points = len(chunks_with_meta)
 points_list = []  # Pre-build the full list of points
@@ -87,7 +87,7 @@ print(f"Starting batched upsert of {total_points} points (batch_size={batch_size
 upserted_count = 0
 for i in range(0, total_points, batch_size):
     batch_points = points_list[i:i + batch_size]
-    batch_num = i // batch_size + 1  # Current batch number
+    batch_num = i // batch_size + 1
     try:
         client.upsert(collection_name=collection_name, points=batch_points)
         upserted_count += len(batch_points)
